@@ -792,6 +792,117 @@ body {
     display: none !important;
 }
 
+/* Theme Styles */
+body.light-theme {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f1f5f9;
+    --bg-glass: rgba(255, 255, 255, 0.7);
+    --bg-glass-hover: rgba(255, 255, 255, 0.85);
+    
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    
+    --border-color: rgba(15, 23, 42, 0.08);
+    --border-color-hover: rgba(15, 23, 42, 0.15);
+    
+    --accent-glow: rgba(37, 99, 235, 0.15);
+    
+    --color-notice: #64748b;
+    --color-notice-glow: rgba(100, 116, 139, 0.1);
+}
+
+/* Background effects adaptation for light theme */
+body.light-theme .bg-grid {
+    background-image: 
+        linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
+}
+
+body.light-theme .bg-glow {
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.04) 0%, rgba(139, 92, 246, 0.02) 50%, transparent 100%);
+}
+
+body.light-theme #search-input {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+body.light-theme .timeline-date-header {
+    border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+}
+
+body.light-theme .timeline-line {
+    background: linear-gradient(to right, rgba(15, 23, 42, 0.08), transparent);
+}
+
+/* Modals adaptation for light theme */
+body.light-theme .modal-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15);
+}
+
+body.light-theme .modal-header,
+body.light-theme .modal-footer {
+    border-color: var(--border-color);
+    background: rgba(15, 23, 42, 0.02);
+}
+
+body.light-theme .tweet-preview-container {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
+}
+
+body.light-theme .tweet-preview-container textarea {
+    color: var(--text-primary);
+}
+
+body.light-theme .toast {
+    background: var(--bg-secondary);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+}
+
+body.light-theme .card-actions {
+    border-top-color: var(--border-color);
+}
+
+/* Theme Toggle Button Styles */
+.btn-theme-toggle {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    width: 40px;
+    height: 40px;
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: var(--transition-fast);
+}
+
+.btn-theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--border-color-hover);
+    transform: translateY(-2px);
+}
+
+.btn-theme-toggle:active {
+    transform: translateY(0);
+}
+
+body.light-theme .btn-theme-toggle {
+    background: rgba(15, 23, 42, 0.04);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+body.light-theme .btn-theme-toggle:hover {
+    background: rgba(15, 23, 42, 0.08);
+}
+
 /* Responsive Breakpoints */
 @media (max-width: 768px) {
     .app-container {

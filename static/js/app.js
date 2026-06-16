@@ -11,6 +11,8 @@ let notesState = {
 const elements = {
     btnRefresh: document.getElementById('btn-refresh'),
     btnExportCsv: document.getElementById('btn-export-csv'),
+    btnThemeToggle: document.getElementById('btn-theme-toggle'),
+    themeIcon: document.getElementById('theme-icon'),
     refreshIcon: document.getElementById('refresh-icon'),
     cacheIndicator: document.getElementById('cache-indicator'),
     searchInput: document.getElementById('search-input'),
@@ -38,6 +40,7 @@ const elements = {
 
 // Initialize App
 document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
     fetchReleaseNotes();
     setupEventListeners();
 });
@@ -51,6 +54,11 @@ function setupEventListeners() {
     // Export CSV button
     if (elements.btnExportCsv) {
         elements.btnExportCsv.addEventListener('click', exportToCSV);
+    }
+    
+    // Theme toggle button
+    if (elements.btnThemeToggle) {
+        elements.btnThemeToggle.addEventListener('click', toggleTheme);
     }
     
     // Search input
@@ -448,4 +456,36 @@ function exportToCSV() {
     URL.revokeObjectURL(url);
     
     showToast("Exported filtered updates to CSV!");
+}
+
+// Initialize theme from local storage
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+        if (elements.themeIcon) {
+            elements.themeIcon.className = 'fa-solid fa-moon';
+        }
+    } else {
+        document.body.classList.remove('light-theme');
+        if (elements.themeIcon) {
+            elements.themeIcon.className = 'fa-solid fa-sun';
+        }
+    }
+}
+
+// Toggle light and dark theme
+function toggleTheme() {
+    const isLight = document.body.classList.toggle('light-theme');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    
+    if (elements.themeIcon) {
+        if (isLight) {
+            elements.themeIcon.className = 'fa-solid fa-moon';
+            showToast("Switched to Light Mode!");
+        } else {
+            elements.themeIcon.className = 'fa-solid fa-sun';
+            showToast("Switched to Dark Mode!");
+        }
+    }
 }
