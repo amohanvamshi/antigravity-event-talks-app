@@ -13,6 +13,7 @@ const elements = {
     btnExportCsv: document.getElementById('btn-export-csv'),
     btnThemeToggle: document.getElementById('btn-theme-toggle'),
     themeIcon: document.getElementById('theme-icon'),
+    btnBackToTop: document.getElementById('btn-back-to-top'),
     refreshIcon: document.getElementById('refresh-icon'),
     cacheIndicator: document.getElementById('cache-indicator'),
     searchInput: document.getElementById('search-input'),
@@ -59,6 +60,12 @@ function setupEventListeners() {
     // Theme toggle button
     if (elements.btnThemeToggle) {
         elements.btnThemeToggle.addEventListener('click', toggleTheme);
+    }
+    
+    // Back to top scroll & click
+    window.addEventListener('scroll', handleScroll);
+    if (elements.btnBackToTop) {
+        elements.btnBackToTop.addEventListener('click', scrollToTop);
     }
     
     // Search input
@@ -121,6 +128,10 @@ async function fetchReleaseNotes(forceRefresh = false) {
             if (result.source === 'cache') {
                 elements.cacheIndicator.textContent = 'Cached';
                 elements.cacheIndicator.classList.remove('hidden');
+            } else if (result.source === 'cache_fallback') {
+                elements.cacheIndicator.textContent = 'Offline Fallback';
+                elements.cacheIndicator.classList.remove('hidden');
+                showToast("Network fetch failed. Loaded latest cached updates.");
             } else {
                 elements.cacheIndicator.textContent = 'Fresh';
                 elements.cacheIndicator.classList.remove('hidden');
@@ -488,4 +499,22 @@ function toggleTheme() {
             showToast("Switched to Dark Mode!");
         }
     }
+}
+
+// Show/hide floating back-to-top button based on scroll position
+function handleScroll() {
+    if (!elements.btnBackToTop) return;
+    if (window.scrollY > 300) {
+        elements.btnBackToTop.classList.add('visible');
+    } else {
+        elements.btnBackToTop.classList.remove('visible');
+    }
+}
+
+// Smooth scroll to top of viewport
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
 }

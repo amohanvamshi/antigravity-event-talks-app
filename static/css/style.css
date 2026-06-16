@@ -55,6 +55,7 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
     min-height: 100vh;
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 /* Background effects */
@@ -905,6 +906,45 @@ body.light-theme .btn-theme-toggle {
 
 body.light-theme .btn-theme-toggle:hover {
     background: rgba(15, 23, 42, 0.08);
+}
+
+/* Back to Top Button */
+.btn-back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    width: 45px;
+    height: 45px;
+    background: var(--accent-primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 14px var(--accent-glow);
+    z-index: 99;
+    transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.2s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+.btn-back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.btn-back-to-top:hover {
+    background: var(--accent-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+.btn-back-to-top:active {
+    transform: translateY(0);
 }
 
 /* Responsive Breakpoints */

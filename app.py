@@ -136,14 +136,24 @@ def get_notes(force_refresh=False):
                 # Fallback to fetching
 
     # Otherwise parse fresh data
-    notes = parse_feed()
     try:
-        with open(CACHE_FILE, 'w') as f:
-            json.dump(notes, f, indent=2)
+        notes = parse_feed()
+        try:
+            with open(CACHE_FILE, 'w') as f:
+                json.dump(notes, f, indent=2)
+        except Exception as e:
+            print(f"Error writing cache: {e}")
+        return notes, "network"
     except Exception as e:
-        print(f"Error writing cache: {e}")
+        print(f"Error fetching/parsing feed: {e}")
+        if os.path.exists(CACHE_FILE):
+            try:
+                with open(CACHE_FILE, 'r') as f:
+                    return json.load(f), "cache_fallback"
+            except Exception as cache_err:
+                print(f"Error reading cache during fallback: {cache_err}")
+        raise e
 
-    return notes, "network"
 
 @app.route('/')
 def index():
