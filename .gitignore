@@ -1,0 +1,21 @@
+# Python virtual environment
+venv/
+.venv/
+env/
+/bin/
+/lib/
+/share/
+/include/
+
+# Compiled files and cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local caches / temp files
+cache.json
+
+# IDE settings
+.vscode/
+.idea/
