@@ -10,6 +10,7 @@ let notesState = {
 // DOM Elements
 const elements = {
     btnRefresh: document.getElementById('btn-refresh'),
+    btnExportCsv: document.getElementById('btn-export-csv'),
     refreshIcon: document.getElementById('refresh-icon'),
     cacheIndicator: document.getElementById('cache-indicator'),
     searchInput: document.getElementById('search-input'),
@@ -46,6 +47,11 @@ function setupEventListeners() {
     // Refresh button
     elements.btnRefresh.addEventListener('click', () => fetchReleaseNotes(true));
     elements.btnRetry.addEventListener('click', () => fetchReleaseNotes(true));
+    
+    // Export CSV button
+    if (elements.btnExportCsv) {
+        elements.btnExportCsv.addEventListener('click', exportToCSV);
+    }
     
     // Search input
     elements.searchInput.addEventListener('input', handleSearchInput);
@@ -402,4 +408,44 @@ function showToast(message) {
             elements.toast.classList.add('hidden');
         }, 300);
     }, 3000);
+}
+
+// Export filtered release notes to a CSV file
+function exportToCSV() {
+    if (notesState.filteredEntries.length === 0) {
+        showToast("No release notes to export!");
+        return;
+    }
+    
+    const headers = ["Date", "Type", "Update Text", "Link"];
+    const rows = [headers];
+    
+    notesState.filteredEntries.forEach(entry => {
+        entry.updates.forEach(update => {
+            // Escape double quotes inside values by doubling them
+            const escapeField = (val) => `"${(val || '').replace(/"/g, '""')}"`;
+            rows.push([
+                escapeField(entry.date),
+                escapeField(update.type),
+                escapeField(update.text),
+                escapeField(entry.link)
+            ]);
+        });
+    });
+    
+    // Join rows with CRLF
+    const csvString = rows.map(r => r.join(",")).join("\r\n");
+    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `bigquery_release_notes_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    showToast("Exported filtered updates to CSV!");
 }
