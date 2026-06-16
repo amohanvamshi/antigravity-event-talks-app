@@ -1,21 +1,46 @@
-# Python virtual environment
+# Python Virtual Environments
 venv/
 .venv/
 env/
+ENV/
 /bin/
 /lib/
 /share/
 /include/
 
-# Compiled files and cache
+# Compiled Python files & cache
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
+*.so
+.Python
 
-# Local caches / temp files
+# Flask / environment configurations
+.env
+.flaskenv
+instance/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local application data caches & temp files
 cache.json
 
-# IDE settings
+# Operating System Metadata
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE, Editor, and Project settings
 .vscode/
 .idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
