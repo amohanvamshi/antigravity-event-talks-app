@@ -52,27 +52,27 @@ def parse_feed():
     for entry in root.findall('atom:entry', NS):
         # Title of the entry is the date of the release (e.g. "June 15, 2026")
         title_el = entry.find('atom:title', NS)
-        date_str = title_el.text.strip() if title_el is not None else "Unknown Date"
+        date_str = title_el.text.strip() if (title_el is not None and title_el.text is not None) else "Unknown Date"
 
         # Unique entry ID
         id_el = entry.find('atom:id', NS)
-        entry_id = id_el.text.strip() if id_el is not None else ""
+        entry_id = id_el.text.strip() if (id_el is not None and id_el.text is not None) else ""
         # Create a simple safe ID prefix
-        safe_prefix = re.sub(r'[^a-zA-Z0-9]', '_', entry_id.split('#')[-1])
+        safe_prefix = re.sub(r'[^a-zA-Z0-9]', '_', entry_id.split('#')[-1]) if entry_id else "entry"
 
         # Updated time
         updated_el = entry.find('atom:updated', NS)
-        updated_str = updated_el.text.strip() if updated_el is not None else ""
+        updated_str = updated_el.text.strip() if (updated_el is not None and updated_el.text is not None) else ""
 
         # Link
         link_el = entry.find('atom:link[@rel="alternate"]', NS)
         if link_el is None:
             link_el = entry.find('atom:link', NS)
-        link_str = link_el.attrib.get('href', '') if link_el is not None else ''
+        link_str = link_el.attrib.get('href', '') if (link_el is not None and link_el.attrib is not None) else ''
 
         # HTML content
         content_el = entry.find('atom:content', NS)
-        content_str = content_el.text if content_el is not None else ""
+        content_str = content_el.text if (content_el is not None and content_el.text is not None) else ""
 
         updates = []
         if content_str:
